@@ -17,27 +17,26 @@ const SidebarItems = [
     icon={<ReceiptIndianRupee size={20} />}
     text="Sales"
     to="/sales"
+    key={1}
   />,
   <SidebarItem
     icon={<LayoutDashboard size={20} />}
     text="Dashboard"
-    active
     to="/dashboard"
+    key={2}
   />,
-  <SidebarItem
-    icon={<Store size={20} />}
-    text="Stock"
-    to="/stock"
-  />,
+  <SidebarItem icon={<Store size={20} />} text="Stock" to="/stock" key={3} />,
   <SidebarItem
     icon={<ChartPie size={20} />}
     text="Analytics"
     to="/analytics"
+    key={4}
   />,
   <SidebarItem
     icon={<Settings size={20} />}
     text="Settings"
     to="/settings"
+    key={5}
   />,
 ];
 
@@ -46,21 +45,27 @@ export const SidebarContext = createContext();
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   return (
-    <aside className="h-screen inline-block">
-      <nav className="border-r h-full flex flex-col">
+    <aside className="h-screen shadow-2xl inline-block sticky top-0 left-0 pt-14">
+      <nav className="h-full flex flex-col">
         <div className="flex p-4 justify-between items-center">
-          {/* <img
-            src="https://img.logoipsum.com/243.svg"
-            className={`transition-all ${isExpanded ? "w-32" : "w-0"}`}
-          /> */}
-          <span className={`font-bold text-xl text-[#2B5D45] italic overflow-hidden transition-all ${isExpanded ? "w-32 ml-3" : "w-0"}`}>AgroPOS</span>
+          <span
+            className={`font-medium text text-gray-600 overflow-hidden transition-all ${
+              isExpanded ? "w-32 ml-3" : "w-0"
+            }`}
+          >
+            Navigate
+          </span>
           <button
             onClick={() => {
               setIsExpanded((prevState) => !prevState);
             }}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
-            {isExpanded ? <ChevronFirst /> : <ChevronLast />}
+            {isExpanded ? (
+              <ChevronFirst size={22} />
+            ) : (
+              <ChevronLast size={22} />
+            )}
           </button>
         </div>
         <SidebarContext.Provider value={isExpanded}>

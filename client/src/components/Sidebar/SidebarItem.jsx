@@ -8,7 +8,7 @@ const SidebarItem = ({ icon, text, active, isExpanded, to }) => {
     <NavLink
       className={(props) => {
         return `flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${
-          props.isActive ? "bg-[#2B5D45] text-white" : "text-gray-600"
+          props.isActive ? "bg-primary text-white" : "text-gray-600"
         }`;
       }}
       to={to}
