@@ -1,12 +1,17 @@
-import {SidebarContext} from "./Sidebar";
+import { SidebarContext } from "./Sidebar";
 import { useContext } from "react";
+import { NavLink } from "react-router";
 
-const SidebarItem = ({ icon, text, active, isExpanded }) => {
+const SidebarItem = ({ icon, text, active, isExpanded, to }) => {
   const context = useContext(SidebarContext);
   return (
-    <li
-      className={`flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors text-gray-600 
-      ${active ? "bg-[#2B5D45] text-white" : ""} `}
+    <NavLink
+      className={(props) => {
+        return `flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer ${
+          props.isActive ? "bg-[#2B5D45] text-white" : "text-gray-600"
+        }`;
+      }}
+      to={to}
     >
       {icon}
       <span
@@ -16,7 +21,7 @@ const SidebarItem = ({ icon, text, active, isExpanded }) => {
       >
         {text}
       </span>
-    </li>
+    </NavLink>
   );
 };
 export default SidebarItem;

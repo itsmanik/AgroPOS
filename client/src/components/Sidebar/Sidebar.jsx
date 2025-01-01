@@ -16,23 +16,28 @@ const SidebarItems = [
   <SidebarItem
     icon={<ReceiptIndianRupee size={20} />}
     text="Sales"
+    to="/sales"
   />,
   <SidebarItem
     icon={<LayoutDashboard size={20} />}
     text="Dashboard"
     active
+    to="/dashboard"
   />,
   <SidebarItem
     icon={<Store size={20} />}
     text="Stock"
+    to="/stock"
   />,
   <SidebarItem
     icon={<ChartPie size={20} />}
     text="Analytics"
+    to="/analytics"
   />,
   <SidebarItem
     icon={<Settings size={20} />}
     text="Settings"
+    to="/settings"
   />,
 ];
 
