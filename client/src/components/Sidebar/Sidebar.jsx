@@ -45,7 +45,7 @@ export const SidebarContext = createContext();
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   return (
-    <aside className="h-screen shadow-2xl inline-block sticky top-0 left-0 pt-14">
+    <aside className="h-screen shadow-lg inline-block sticky top-0 left-0 pt-14">
       <nav className="h-full flex flex-col">
         <div className="flex p-4 justify-between items-center">
           <span
