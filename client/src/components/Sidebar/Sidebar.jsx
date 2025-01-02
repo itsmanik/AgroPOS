@@ -79,7 +79,7 @@ const Sidebar = () => {
           />
           <div
             className={`flex items-center justify-between overflow-hidden transition-all ${
-              isExpanded ? "w-44 ml-3" : "w-0"
+              isExpanded ? "w-36 ml-3" : "w-0"
             }`}
           >
             <div className="leading-4">

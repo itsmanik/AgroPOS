@@ -16,7 +16,7 @@ const SidebarItem = ({ icon, text, active, isExpanded, to }) => {
       {icon}
       <span
         className={`overflow-hidden transition-all ${
-          context ? "w-44 ml-3" : "w-0"
+          context ? "w-36 ml-3" : "w-0"
         }`}
       >
         {text}

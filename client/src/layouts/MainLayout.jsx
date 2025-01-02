@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 
 const MainLayout = () => {
   return (
-    <>
+    <div className="font-inter text-sm">
       <Navbar />
       <main className="flex">
         <Sidebar />
@@ -12,7 +12,7 @@ const MainLayout = () => {
           <Outlet />
         </div>
       </main>
-    </>
+    </div>
   );
 };
 export default MainLayout;
