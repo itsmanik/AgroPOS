@@ -1,10 +1,11 @@
-import FilteredProducts from "../components/ProductsList/FilteredProducts";
+import FilteredProducts from "../../components/ProductsList/FilteredProducts";
+import { Link } from "react-router";
 
 const ProductsPage = () => {
   return (
     <div className="p-5 pt-10">
       {/* Buttons */}
-      <div className="inline-flex bg-white border-l-2 border-l-[#2B5D45] relative items-center py-8 rounded px-8 cursor-pointer shadow gap-5">
+      <Link to={"create"} className="inline-flex bg-white border-l-2 border-l-[#2B5D45] relative items-center py-8 rounded px-8 cursor-pointer shadow gap-5">
         <svg
           viewBox="0 0 576 512"
           className="h-11 w-11"
@@ -19,7 +20,7 @@ const ProductsPage = () => {
         <span className="absolute right-0 bottom-0 bg-primary rounded-full h-10 w-10 text-2xl text-white flex justify-center items-center translate-x-[50%] translate-y-[30%]">
           +
         </span>
-      </div>
+      </Link>
       {/* Products */}
       <div className="mt-10">
         <h2 className="text-xl font-bold text-gray-700 mb-2">All Products</h2>

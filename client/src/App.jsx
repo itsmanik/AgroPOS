@@ -5,8 +5,9 @@ import Dashboard from "./pages/DashboardPage";
 import Sales from "./pages/SalesPage";
 import Settings from "./pages/SettingsPage";
 import Stock from "./pages/StockPage";
-import ProductsPage from "./pages/ProductsPage";
+import ProductsPage from "./pages/Products/ProductsPage";
 import MainLayout from "./layouts/MainLayout";
+import CreateProductPage from "./pages/Products/CreateProductPage";
 
 function App() {
   return (
@@ -15,7 +16,10 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="/sales" element={<Sales />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products">
+            <Route index element={<ProductsPage />} />
+            <Route path="create" element={<CreateProductPage />} />
+          </Route>
           <Route path="/stock" element={<Stock />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
