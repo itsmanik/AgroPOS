@@ -8,6 +8,7 @@ import {
   ChartPie,
   LayoutDashboard,
   ReceiptIndianRupee,
+  ShoppingBasket
 } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import { createContext, useState } from "react";
@@ -25,18 +26,24 @@ const SidebarItems = [
     to="/dashboard"
     key={2}
   />,
-  <SidebarItem icon={<Store size={20} />} text="Stock" to="/stock" key={3} />,
+  <SidebarItem
+    icon={<ShoppingBasket size={20} />}
+    text="Products"
+    to="/products"
+    key={3}
+  />,
+  <SidebarItem icon={<Store size={20} />} text="Stock" to="/stock" key={4} />,
   <SidebarItem
     icon={<ChartPie size={20} />}
     text="Analytics"
     to="/analytics"
-    key={4}
+    key={5}
   />,
   <SidebarItem
     icon={<Settings size={20} />}
     text="Settings"
     to="/settings"
-    key={5}
+    key={6}
   />,
 ];
 
