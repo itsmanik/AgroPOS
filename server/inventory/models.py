@@ -9,7 +9,7 @@ class Product(models.Model):
     unit = models.CharField(max_length=255, default="")
     mrp = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     selling_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    CGST = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    cgst = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     sgst = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     igst = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     hsn_code = models.DecimalField(max_digits=10, decimal_places=2, default=0)
