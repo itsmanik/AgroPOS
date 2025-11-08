@@ -1,0 +1,30 @@
+require('dotenv').config();
+const express = require('express')
+const productsRouter = require('./routes/products');
+
+const app = express();
+
+console.log('PORT from env:', process.env.PORT); // Debug line
+
+app.use(express.json());
+
+// Test route
+app.get('/', (req, res) => {
+    res.json({ message: 'Server is running!' });
+});
+
+app.use('/api/products', productsRouter);
+
+// Error handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
+app.use((req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+});
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
+});
