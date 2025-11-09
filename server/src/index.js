@@ -7,6 +7,7 @@ const app = express();
 console.log('PORT from env:', process.env.PORT); // Debug line
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // Test route
 app.get('/', (req, res) => {
