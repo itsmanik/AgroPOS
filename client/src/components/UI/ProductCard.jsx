@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const ProductCard = ({ classname, name, imgUrl, price }) => {
   return (
     <div
@@ -15,4 +17,12 @@ const ProductCard = ({ classname, name, imgUrl, price }) => {
     </div>
   );
 };
+
+ProductCard.propTypes = {
+  classname: PropTypes.string,
+  name: PropTypes.string,
+  imgUrl: PropTypes.string,
+  price: PropTypes.string
+}
+
 export default ProductCard;

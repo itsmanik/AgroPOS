@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
 import ProductCard from "../UI/ProductCard";
 import { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import api from "../../utils/axios";
 
 const ProductsList = ({ classname }) => {
@@ -11,7 +12,7 @@ const ProductsList = ({ classname }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get("/inventory/products/");
+        const response = await api.get("/products/");
         setProducts(response.data);
         console.log(response.data);
       } catch {
@@ -28,7 +29,7 @@ const ProductsList = ({ classname }) => {
   const filteredProducts = products.filter((product) => {
     return (
       product.name.toLowerCase().includes(searchText) ||
-      product.price.toString().includes(searchText)
+      product.selling_price.toString().includes(searchText)
     );
   });
 
@@ -57,7 +58,7 @@ const ProductsList = ({ classname }) => {
             <ProductCard
               key={index}
               name={product.name}
-              imgUrl={product.image}
+              imgUrl={product.img_url}
               price={product.selling_price}
             />
           );
@@ -66,4 +67,10 @@ const ProductsList = ({ classname }) => {
     </div>
   );
 };
+
+ProductsList.propTypes = {
+  classname: PropTypes.string
+}
+
+
 export default ProductsList;

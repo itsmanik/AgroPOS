@@ -1,11 +1,12 @@
 require('dotenv').config();
 const express = require('express')
 const productsRouter = require('./routes/products');
+const cors = require("cors");
 
 const app = express();
 
-console.log('PORT from env:', process.env.PORT); // Debug line
 
+app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 

@@ -11,7 +11,7 @@ const FilteredProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await api.get("/inventory/products/");
+        const response = await api.get("/products");
         setProducts(response.data);
         console.log(response.data);
       } catch {
@@ -28,7 +28,7 @@ const FilteredProducts = () => {
   const filteredProducts = products.filter((product) => {
     return (
       product.name.toLowerCase().includes(searchText) ||
-      product.price.toString().includes(searchText)
+      product.selling_price.toString().includes(searchText)
     );
   });
 
@@ -61,7 +61,7 @@ const FilteredProducts = () => {
               <ProductCard
                 key={index}
                 name={product.name}
-                imgUrl={product.image}
+                imgUrl={product.img_url}
                 price={product.selling_price}
               />
             );

@@ -5,7 +5,12 @@ const path = require('path');
 exports.getAllProducts = async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM products ORDER BY id DESC');
-        res.json(rows);
+        const baseUrl = `${req.protocol}://${req.get("host")}/uploads/`;
+        const products = rows.map((product) => ({
+            ...product,
+            img_url: product.img_url ? baseUrl + product.img_url : null,
+        }));
+        res.json(products);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
