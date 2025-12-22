@@ -2,7 +2,7 @@ import QRCode from "react-qr-code";
 import Total from "./Total";
 import CustomerInfo from "./CustomerInfo";
 
-const Billing = ({ classname }) => {
+const Billing = ({ classname, total }) => {
   return (
     <div className={classname}>
       <h2 className="text-xl font-bold text-gray-700 mb-2">Billing</h2>
@@ -13,11 +13,11 @@ const Billing = ({ classname }) => {
         <div className="overflow-hidden">
           <QRCode
             className="h-full w-full p-3"
-            value="upi://pay?pa=nehamaravanthe@okicici&pn=VE&am=8200&cu=INR"
+            value={`upi://pay?pa=nehamaravanthe@okicici&pn=VE&am=${total}&cu=INR`}
             fgColor="#2e2e2e"
           />
         </div>
-        <Total />
+        <Total total={total} />
       </div>
     </div>
   );

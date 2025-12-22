@@ -4,17 +4,15 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import api from "../../utils/axios";
 
-const ProductsList = ({ classname }) => {
+const ProductsList = ({ classname, addItemToBill }) => {
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
   const scrollableProductsDivRef = useRef();
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await api.get("/products/");
         setProducts(response.data);
-        console.log(response.data);
       } catch {
         console.log("Error fetching products");
       }
@@ -24,6 +22,10 @@ const ProductsList = ({ classname }) => {
 
   const scrollToTop = () => {
     scrollableProductsDivRef.current.scrollTop = 0;
+  }
+
+  const onProductClick = (product) => {
+    addItemToBill(product);
   }
 
   const filteredProducts = products.filter((product) => {
@@ -60,6 +62,7 @@ const ProductsList = ({ classname }) => {
               name={product.name}
               imgUrl={product.img_url}
               price={product.selling_price}
+              onClick={() => { onProductClick(product) }}
             />
           );
         }) : <span className="text-sm">No products found</span>}

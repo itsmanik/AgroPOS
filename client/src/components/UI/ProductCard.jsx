@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 
-const ProductCard = ({ classname, name, imgUrl, price }) => {
+const ProductCard = ({ classname, name, imgUrl, price, onClick }) => {
   return (
     <div
       className={`${classname} flex cursor-pointer flex-col items-center border rounded-lg bg-primary shadow-lg`}
     >
-      <div className="w-full h-full">
+      <div className="w-full h-full" onClick={onClick}>
         <img src={imgUrl} className="h-full w-fullobject-cover rounded-t-lg" alt="Product Image" />
       </div>
       <div className="p-3 text-center text-white">

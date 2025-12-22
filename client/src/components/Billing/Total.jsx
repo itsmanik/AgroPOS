@@ -2,7 +2,7 @@ import { Trash2, Scan, Printer, ArrowDown } from "lucide-react";
 import Invoice from "../Invoice/Invoice";
 import { useRef } from "react";
 
-const Total = () => {
+const Total = ({total}) => {
   const billRef = useRef(null);
   const handlePrint = () => {
     if (billRef.current) {
@@ -16,7 +16,7 @@ const Total = () => {
       <div className="flex w-full justify-end">
         <span className="p-1 px-4">Sub Total:</span>
         <span className="flex border-2">
-          <span className="w-20 p-1 px-2 outline-none">3420</span>
+          <span className="w-20 p-1 px-2 outline-none">{total}</span>
           <span className="p-1 border-l-2 min-w-7 flex justify-center">₹</span>
         </span>
       </div>
@@ -46,7 +46,7 @@ const Total = () => {
           onClick={handlePrint}
           className="flex hover:bg-green-900 rounded w-full h-10 items-center justify-between bg-primary text-white text-center"
         >
-          <span className="p-2 px-2 w-full text-center text-lg">8200.0</span>
+          <span className="p-2 px-2 w-full text-center text-lg">{total}</span>
           <span className="border-l-[2px] min-w-6 p-2 h-full flex items-center justify-center">
             <Printer size={22} className="" />
           </span>
