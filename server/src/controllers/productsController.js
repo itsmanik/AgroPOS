@@ -18,12 +18,13 @@ exports.getAllProducts = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const { name, img_url, nickname, category, unit, mrp, cgst, sgst, igst, selling_price, hsn_code } = req.body;
+        const { name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code } = req.body;
         const image = req.file ? req.file.filename : null;
-        const [result] = await pool.query('INSERT INTO products (name, img_url, nickname, category, unit, mrp, cgst, sgst, igst, selling_price, hsn_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, image, nickname, category, unit, mrp, cgst, sgst, igst, selling_price, hsn_code]);
+        const [result] = await pool.query('INSERT INTO products (name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, image, nickname, category, unit, mrp, gst, selling_price, hsn_code]);
         const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [result.insertId]);
         res.status(201).json(rows[0]);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: err.message });
     }
 };

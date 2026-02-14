@@ -6,9 +6,7 @@ const CreateProductPage = () => {
   const [nickname, setNickname] = useState("");
   const [brandName, setBrandName] = useState("");
   const [mrp, setMrp] = useState("");
-  const [cgst, setCgst] = useState("");
-  const [sgst, setSgst] = useState("");
-  const [igst, setIgst] = useState("");
+  const [gst, setGST] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
   const [hsnCode, setHsnCode] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("General");
@@ -40,9 +38,7 @@ const CreateProductPage = () => {
     formData.append("category", selectedCategory);
     formData.append("unit", selectedUnit);
     formData.append("mrp", mrp);
-    formData.append("cgst", cgst);
-    formData.append("sgst", sgst);
-    formData.append("igst", igst);
+    formData.append("gst", gst);
     formData.append("selling_price", sellingPrice);
     formData.append("hsn_code", hsnCode);
     if (image) {
@@ -162,33 +158,13 @@ const CreateProductPage = () => {
             </div>
             <div className="grid grid-cols-3 gap-6">
               <div>
-                <label className="block text-gray-700">CGST</label>
+                <label className="block text-gray-700">GST</label>
                 <input
                   type="text"
                   placeholder="%"
                   className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  value={cgst}
-                  onChange={(e) => setCgst(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700">SGST</label>
-                <input
-                  type="text"
-                  placeholder="%"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  value={sgst}
-                  onChange={(e) => setSgst(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700">IGST</label>
-                <input
-                  type="text"
-                  placeholder="%"
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-                  value={igst}
-                  onChange={(e) => setIgst(e.target.value)}
+                  value={gst}
+                  onChange={(e) => setGST(e.target.value)}
                 />
               </div>
             </div>

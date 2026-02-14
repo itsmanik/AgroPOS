@@ -1,7 +1,6 @@
 import { Search } from "lucide-react";
 import ProductCard from "../UI/ProductCard";
 import { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import api from "../../utils/axios";
 
 const ProductsList = ({ classname, addItemToBill }) => {
@@ -54,7 +53,7 @@ const ProductsList = ({ classname, addItemToBill }) => {
         </button>
       </div>
       {/* Products */}
-      <div className="grid grid-cols-[1fr,1fr] gap-2 p-2 my-4 overflow-y-scroll" ref={scrollableProductsDivRef}>
+      <div className="grid grid-cols-[1fr,1fr,1fr,1fr,1fr,1fr] gap-2 p-2 my-4 overflow-y-scroll" ref={scrollableProductsDivRef}>
         {filteredProducts.length > 0 ? filteredProducts.map((product, index) => {
           return (
             <ProductCard
@@ -70,10 +69,6 @@ const ProductsList = ({ classname, addItemToBill }) => {
     </div>
   );
 };
-
-ProductsList.propTypes = {
-  classname: PropTypes.string
-}
 
 
 export default ProductsList;

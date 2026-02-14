@@ -8,7 +8,7 @@ import Stock from "./pages/StockPage";
 import ProductsPage from "./pages/Products/ProductsPage";
 import MainLayout from "./layouts/MainLayout";
 import CreateProductPage from "./pages/Products/CreateProductPage";
-import Invoice from "./components/Invoice/Invoice";
+// import Invoice from "./components/Invoice/Invoice";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           <Route path="/stock" element={<Stock />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/invoice" element={<Invoice />} />
+          {/* <Route path="/invoice" element={<Invoice />} /> */}
         </Route>
       </Routes>
     </>
