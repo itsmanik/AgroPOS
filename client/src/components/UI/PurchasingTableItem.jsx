@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 
-const PurchasingTableItem = ({ slNo, hsn, name, sp, mrp, gst, qty }) => {
+const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPrice }) => {
   const taxable = sp * qty;
   const gst_amount = (taxable * gst) / 100;
   const total = taxable + gst_amount;
@@ -9,13 +9,13 @@ const PurchasingTableItem = ({ slNo, hsn, name, sp, mrp, gst, qty }) => {
       <span className="px-2 py-1">{slNo}</span>
       <span className="px-2 py-1 border-l">{name}</span>
       <span className="px-2 py-1 border-l">{hsn}</span>
-      <span className="px-2 py-1 border-l">{sp}</span>
+      <input className="px-2 py-1 border-l" defaultValue={sp} onChange={(e) => { changeUnitPrice(id, e.target.value)} } />
       
       {/* CGST column - shows both rate and dummy amount */}
       <span className="px-2 py-1 border-l">{qty}</span>
       
       {/* SGST column - shows both rate and dummy amount */}
-      <span className="px-2 py-1 border-l">{taxable}</span>
+      <span className="px-2 py-1 border-l">{taxable.toFixed(2)}</span>
       
       {/* IGST column - shows both rate and dummy amount */}
       <span className="px-2 py-1 border-l flex flex-col items-start">
@@ -33,7 +33,7 @@ const PurchasingTableItem = ({ slNo, hsn, name, sp, mrp, gst, qty }) => {
         />
       </span>
       
-      <span className="px-2 py-1 border-l">{total}</span>
+      <span className="px-2 py-1 border-l">{total.toFixed(2)}</span>
       
       <span className="pl-2 py-1 border-l">
         <button className="h-full w-full flex justify-center items-center hover:bg-gray-100 rounded transition-colors">

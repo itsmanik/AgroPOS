@@ -26,6 +26,20 @@ const Sales = () => {
     });
   };
 
+  const changeUnitPrice = (id, price) => {
+    console.log("running");
+    setBillingItems((prevItems) => {
+      return prevItems.map((item) => {
+        if (item.id == id) {
+          return { ...item, selling_price: price}
+        } else {
+          return item;
+        }
+      });
+    });
+  }
+
+  // Use memo recommended, learn that later and implement
   const calculateTotal = () => {
     const total = billingItems.reduce((sum, item) => {
       const taxable = item.selling_price * item.qty;
@@ -47,10 +61,12 @@ const Sales = () => {
         extraDiscount={extraDiscount}
         setExtraDiscount={setExtraDiscount}
         classname={"rounded-lg flex flex-col"}
+        billingItems={billingItems}
       />
       <PurchasingTable
         purchasingItems={billingItems}
         classname={"h-full col-span-2 flex flex-col"}
+        changeUnitPrice={changeUnitPrice}
       />
     </main>
   );

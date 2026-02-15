@@ -1,6 +1,6 @@
 import PurchasingTableItem from "../UI/PurchasingTableItem";
 
-const PurchasingTable = ({ classname, purchasingItems }) => {
+const PurchasingTable = ({ classname, purchasingItems, changeUnitPrice }) => {
   return (
     <div className={classname}>
       <h2 className="text-xl font-bold text-gray-700 mb-2">Purchasing</h2>
@@ -18,7 +18,7 @@ const PurchasingTable = ({ classname, purchasingItems }) => {
         </div>
         <div className="flex flex-col gap-1 mt-2">
           {purchasingItems.map((item, index) => {
-            return <PurchasingTableItem key={index} slNo={index + 1} hsn={item.hsn_code} name={item.name} sp={item.selling_price} mrp={item.mrp} gst={item.gst} qty={item.qty} />
+            return <PurchasingTableItem key={index} id={item.id} slNo={index + 1} hsn={item.hsn_code} name={item.name} sp={item.selling_price} mrp={item.mrp} gst={item.gst} qty={item.qty} changeUnitPrice={changeUnitPrice} />
           })}
         </div>
       </div>
