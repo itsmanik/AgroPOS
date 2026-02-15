@@ -1,8 +1,8 @@
-const pool = require('../config/db');
-const multer = require('multer');
-const path = require('path');
+import pool from '../config/db.js';
+import multer from "multer"
+import path from "path";
 
-exports.getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM products ORDER BY id DESC');
         const baseUrl = `${req.protocol}://${req.get("host")}/uploads/`;
@@ -16,7 +16,7 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
-exports.createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
     try {
         const { name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code } = req.body;
         const image = req.file ? req.file.filename : null;
@@ -28,3 +28,5 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+export {getAllProducts, createProduct}
