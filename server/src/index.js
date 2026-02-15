@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express')
 const productsRouter = require('./routes/products');
+const salesRouter = require('./routes/salesRouter');
+// import salesRouter from "./routes/salesRouter";
 const cors = require("cors");
 
 const app = express();
@@ -16,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/products', productsRouter);
+app.use('/api/sales', salesRouter);
 
 // Error handling
 app.use((err, req, res, next) => {

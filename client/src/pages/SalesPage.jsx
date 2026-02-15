@@ -2,6 +2,7 @@ import ProductsList from "../components/ProductsList/ProductsList";
 import Billing from "../components/Billing/Billing";
 import PurchasingTable from "../components/PurchasingTable/PurchasingTable";
 import { useState } from "react";
+import api from "../utils/axios";
 
 const Sales = () => {
   const [billingItems, setBillingItems] = useState([]);
@@ -31,13 +32,13 @@ const Sales = () => {
     setBillingItems((prevItems) => {
       return prevItems.map((item) => {
         if (item.id == id) {
-          return { ...item, selling_price: price}
+          return { ...item, selling_price: price };
         } else {
           return item;
         }
       });
     });
-  }
+  };
 
   // Use memo recommended, learn that later and implement
   const calculateTotal = () => {
@@ -48,6 +49,41 @@ const Sales = () => {
       return sum + total;
     }, 0);
     return total - extraDiscount;
+  };
+
+  const sendBill = async (
+    name,
+    phoneNumber,
+    location,
+    subtotal,
+    totalGST,
+    extraDiscount,
+    grandTotal,
+    paymentMode
+  ) => {
+    const billPayload = {
+      customer: {
+        name: name,
+        phone_number: phoneNumber,
+        address: location,
+      },
+      items: billingItems,
+      summary: {
+        subtotal: subtotal,
+        cgst_amount: (totalGST / 2).toFixed(2),
+        sgst_amount: (totalGST / 2).toFixed(2),
+        igst_amount: 0,
+        discount: extraDiscount,
+        grand_total: grandTotal,
+        payment_mode: paymentMode,
+      },
+    };
+    try {
+      const response = await api.post("/sales", billPayload);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -62,6 +98,7 @@ const Sales = () => {
         setExtraDiscount={setExtraDiscount}
         classname={"rounded-lg flex flex-col"}
         billingItems={billingItems}
+        sendBill={sendBill}
       />
       <PurchasingTable
         purchasingItems={billingItems}

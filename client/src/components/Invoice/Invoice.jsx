@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 // import React, {
 //   useRef,
 //   useState,
@@ -112,3 +113,56 @@
 // });
 
 // export default Invoice;
+import React, { forwardRef } from "react";
+
+const PrintableBill = forwardRef(({ bill }, ref) => {
+  return (
+    <div ref={ref} className="p-4 text-sm w-[300px] bg-white">
+      <h2 className="text-center font-bold text-lg mb-2">
+        Your Shop Name
+      </h2>
+
+      <div className="text-xs mb-2 text-center">
+        <div>Phone: 9876543210</div>
+        <div>GSTIN: 29ABCDE1234F1Z5</div>
+      </div>
+
+      <hr className="my-2" />
+
+      {/* Items */}
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="text-left border-b">
+            <th>Item</th>
+            <th className="text-right">Qty</th>
+            <th className="text-right">Amt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bill.items.map((item, idx) => (
+            <tr key={idx}>
+              <td>{item.name}</td>
+              <td className="text-right">{item.qty}</td>
+              <td className="text-right">
+                ₹{item.total.toFixed(2)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <hr className="my-2" />
+
+      <div className="flex justify-between font-bold">
+        <span>Grand Total</span>
+        <span>₹{bill.grandTotal.toFixed(2)}</span>
+      </div>
+
+      <p className="text-center text-xs mt-3">
+        Thank you! Visit again 🙏
+      </p>
+    </div>
+  );
+});
+
+export default PrintableBill;

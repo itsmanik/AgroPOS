@@ -15,6 +15,7 @@ const Billing = ({
   billingItems = [],
   extraDiscount,
   setExtraDiscount,
+  sendBill,
 }) => {
   const [paymentMode, setPaymentMode] = useState("cash");
   const [name, setName] = useState("");
@@ -67,6 +68,25 @@ const Billing = ({
   };
 
   const handlePrint = () => {
+    sendBill();
+    const handleSendWhatsApp = (phone = "9904587678", bill = "hi") => {
+      if (!phone) {
+        alert("Customer phone number missing");
+        return;
+      }
+
+      // remove spaces and non-digits
+      const cleanPhone = phone.replace(/\D/g, "");
+
+      const message = "hi this is a";
+      const encodedMessage = encodeURIComponent(message);
+
+      const url = `https://wa.me/91${cleanPhone}?text=${encodedMessage}`;
+
+      window.open(url, "_blank");
+    };
+    handleSendWhatsApp();
+
     if (billRef.current) {
       billRef.current.handlePrint();
     }
@@ -204,7 +224,9 @@ const Billing = ({
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">Scan to Pay</h3>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Scan to Pay
+                </h3>
                 <button
                   onClick={() => setShowQRModal(false)}
                   className="p-1 hover:bg-gray-100 rounded"
@@ -212,7 +234,7 @@ const Billing = ({
                   <X size={20} />
                 </button>
               </div>
-              
+
               <div className="flex flex-col items-center">
                 <QRCode
                   value={`upi://pay?pa=nehamaravanthe@okicici&pn=AgroShop&am=${grandTotal.toFixed(
@@ -221,10 +243,12 @@ const Billing = ({
                   size={200}
                   fgColor="#2B5D45"
                 />
-                
+
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-600 mb-1">Amount to pay:</p>
-                  <p className="text-2xl font-bold text-[#2B5D45]">₹{grandTotal.toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-[#2B5D45]">
+                    ₹{grandTotal.toFixed(2)}
+                  </p>
                 </div>
 
                 <div className="mt-4 w-full">
@@ -269,7 +293,19 @@ const Billing = ({
 
         {/* Print Button */}
         <button
-          onClick={handlePrint}
+          onClick={() => {
+            // handlePrint();
+            sendBill(
+              name,
+              phoneNumber,
+              location,
+              subtotal,
+              totalGST,
+              extraDiscount,
+              grandTotal,
+              paymentMode
+            );
+          }}
           className="flex items-center justify-between mt-auto bg-[#2B5D45] text-white rounded-lg p-2 hover:bg-[#23553d] transition-colors"
         >
           <div className="flex items-center gap-2">
