@@ -2,35 +2,39 @@ import {
   ChevronFirst,
   ChevronLast,
   EllipsisVertical,
-  Layout,
   Store,
   Settings,
   ChartPie,
   LayoutDashboard,
-  ReceiptIndianRupee,
-  ShoppingBasket
 } from "lucide-react";
+import { FiBox, FiFileText, FiShoppingCart} from "react-icons/fi";
 import SidebarItem from "./SidebarItem";
 import { createContext, useState } from "react";
 
 const SidebarItems = [
   <SidebarItem
-    icon={<ReceiptIndianRupee size={20} />}
+    icon={<FiShoppingCart size={20} />}
+    text="Billing"
+    to="/billing"
+    key={1}
+  />,
+  <SidebarItem
+    icon={<FiFileText size={20} />}
     text="Sales"
     to="/sales"
-    key={1}
+    key={2}
   />,
   <SidebarItem
     icon={<LayoutDashboard size={20} />}
     text="Dashboard"
     to="/dashboard"
-    key={2}
+    key={3}
   />,
   <SidebarItem
-    icon={<ShoppingBasket size={20} />}
+    icon={<FiBox size={20} />}
     text="Products"
     to="/products"
-    key={3}
+    key={4}
   />,
   <SidebarItem icon={<Store size={20} />} text="Stock" to="/stock" key={4} />,
   <SidebarItem
