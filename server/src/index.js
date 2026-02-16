@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from "express";
 import productsRouter from "./routes/products.js";
 import salesRouter from "./routes/salesRouter.js";
+// import dashboardRouter from "./routes/dashboardRouter.js";
 import cors from "cors";
 
 const app = express();
@@ -17,6 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productsRouter);
 app.use("/api/sales", salesRouter);
+// app.use("/api/dashboard", dashboardRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
