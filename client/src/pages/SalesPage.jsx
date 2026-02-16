@@ -12,7 +12,6 @@ const SalesPage = () => {
     const fetchSales = async () => {
       try {
         const res = await api.get("/sales");
-        console.log(res);
         setSales(res.data);
       } catch (err) {
         console.error("Failed to load sales", err);
@@ -29,7 +28,10 @@ const SalesPage = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-pulse flex flex-col items-center">
-          <div className="w-12 h-12 border-4 border-gray-200 border-t-4 rounded-full" style={{ borderTopColor: '#2b5d45' }}></div>
+          <div
+            className="w-12 h-12 border-4 border-gray-200 border-t-4 rounded-full"
+            style={{ borderTopColor: "#2b5d45" }}
+          ></div>
           <span className="mt-4 text-gray-500">Loading sales...</span>
         </div>
       </div>
@@ -39,44 +41,30 @@ const SalesPage = () => {
   // 🎨 Elegant status badge
   const PaymentBadge = ({ mode }) => {
     const colors = {
-      cash: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      card: 'bg-blue-50 text-blue-700 border-blue-200',
-      upi: 'bg-purple-50 text-purple-700 border-purple-200',
-      credit: 'bg-amber-50 text-amber-700 border-amber-200',
+      cash: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      card: "bg-blue-50 text-blue-700 border-blue-200",
+      upi: "bg-purple-50 text-purple-700 border-purple-200",
+      credit: "bg-amber-50 text-amber-700 border-amber-200",
     };
-    
-    const defaultColor = 'bg-gray-50 text-gray-700 border-gray-200';
-    
+
+    const defaultColor = "bg-gray-50 text-gray-700 border-gray-200";
+
     return (
-      <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize border ${colors[mode?.toLowerCase()] || defaultColor}`}>
-        {mode || 'N/A'}
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-medium capitalize border ${
+          colors[mode?.toLowerCase()] || defaultColor
+        }`}
+      >
+        {mode || "N/A"}
       </span>
     );
   };
 
   return (
     <div className="p-6">
-      {/* Header with stats */}
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-gray-800">Sales</h1>
-        
-        {/* Quick stats */}
-        <div className="flex items-center space-x-4">
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Total Sales</p>
-            <p className="text-lg font-bold" style={{ color: '#2b5d45' }}>
-              ₹{sales.reduce((sum, sale) => sum + Number(sale.grand_total), 0).toLocaleString()}
-            </p>
-          </div>
-          <button 
-            onClick={() => navigate('/sales/new')}
-            className="px-4 py-2 text-white rounded-lg hover:opacity-90 transition flex items-center space-x-2"
-            style={{ backgroundColor: '#2b5d45' }}
-          >
-            <span>+</span>
-            <span>New Sale</span>
-          </button>
-        </div>
       </div>
 
       {/* 🧾 Elegant table */}
@@ -100,10 +88,10 @@ const SalesPage = () => {
                   <div className="flex flex-col items-center">
                     <span className="text-5xl mb-3 opacity-30">📭</span>
                     <p className="text-gray-500 mb-2">No sales yet</p>
-                    <button 
-                      onClick={() => navigate('/sales/new')}
+                    <button
+                      onClick={() => navigate("/sales/new")}
                       className="text-sm hover:underline"
-                      style={{ color: '#2b5d45' }}
+                      style={{ color: "#2b5d45" }}
                     >
                       Create your first sale →
                     </button>
@@ -112,8 +100,8 @@ const SalesPage = () => {
               </tr>
             ) : (
               sales.map((sale) => (
-                <tr 
-                  key={sale.id} 
+                <tr
+                  key={sale.id}
                   className="hover:bg-gray-50/80 transition cursor-pointer group"
                   onClick={() => navigate(`/sales/${sale.id}`)}
                 >
@@ -124,21 +112,23 @@ const SalesPage = () => {
                   </td>
 
                   <td className="p-4 text-gray-600">
-                    {new Date(sale.created_at).toLocaleDateString('en-IN', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
+                    {new Date(sale.created_at).toLocaleDateString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })}
                   </td>
 
                   <td className="p-4">
                     <span className="flex items-center space-x-2">
                       <span className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-xs">
-                        {(sale.customer_name || 'W').charAt(0)}
+                        {(sale.customer_name || "W").charAt(0)}
                       </span>
-                      <span className="text-gray-700">{sale.customer_name || "Walk-in"}</span>
+                      <span className="text-gray-700">
+                        {sale.customer_name || "Walk-in"}
+                      </span>
                     </span>
                   </td>
 
@@ -159,9 +149,9 @@ const SalesPage = () => {
                         navigate(`/sales/${sale.id}`);
                       }}
                       className="px-3 py-1.5 text-xs font-medium rounded-md transition opacity-0 group-hover:opacity-100"
-                      style={{ 
-                        backgroundColor: '#2b5d4510',
-                        color: '#2b5d45'
+                      style={{
+                        backgroundColor: "#2b5d4510",
+                        color: "#2b5d45",
                       }}
                     >
                       View Details
@@ -175,17 +165,28 @@ const SalesPage = () => {
       </div>
 
       {/* Bottom pagination (if needed) */}
-      {sales.length > 0 && (
+      {/* {sales.length > 0 && (
         <div className="mt-4 flex justify-between items-center text-sm text-gray-500">
           <span>Showing {sales.length} entries</span>
           <div className="flex space-x-2">
-            <button className="px-3 py-1 border rounded hover:bg-gray-50">Previous</button>
-            <button className="px-3 py-1 rounded text-white" style={{ backgroundColor: '#2b5d45' }}>1</button>
-            <button className="px-3 py-1 border rounded hover:bg-gray-50">2</button>
-            <button className="px-3 py-1 border rounded hover:bg-gray-50">Next</button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-50">
+              Previous
+            </button>
+            <button
+              className="px-3 py-1 rounded text-white"
+              style={{ backgroundColor: "#2b5d45" }}
+            >
+              1
+            </button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-50">
+              2
+            </button>
+            <button className="px-3 py-1 border rounded hover:bg-gray-50">
+              Next
+            </button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
