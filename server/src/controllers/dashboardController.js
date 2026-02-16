@@ -15,7 +15,7 @@ const dashboardController = async (req, res) => {
             select *
             from sales
             order by created_at desc
-            limit 5
+            limit 10
         `);
     const [lowStock] = await pool.query(`
             select * 
