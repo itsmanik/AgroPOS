@@ -67,31 +67,6 @@ const Billing = ({
     return Math.max(0, received - grandTotal);
   };
 
-  const handlePrint = () => {
-    sendBill();
-    const handleSendWhatsApp = (phone = "9904587678", bill = "hi") => {
-      if (!phone) {
-        alert("Customer phone number missing");
-        return;
-      }
-
-      // remove spaces and non-digits
-      const cleanPhone = phone.replace(/\D/g, "");
-
-      const message = "hi this is a";
-      const encodedMessage = encodeURIComponent(message);
-
-      const url = `https://wa.me/91${cleanPhone}?text=${encodedMessage}`;
-
-      window.open(url, "_blank");
-    };
-    handleSendWhatsApp();
-
-    if (billRef.current) {
-      billRef.current.handlePrint();
-    }
-  };
-
   // Handle online payment click
   const handleOnlinePayment = () => {
     setPaymentMode("online");
@@ -294,7 +269,6 @@ const Billing = ({
         {/* Print Button */}
         <button
           onClick={() => {
-            // handlePrint();
             sendBill(
               name,
               phoneNumber,
