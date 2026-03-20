@@ -1,9 +1,11 @@
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import ProductCard from "../UI/ProductCard";
 import { useState, useRef, useEffect } from "react";
 import api from "../../utils/axios";
+import CreateProductModal from "../../pages/Products/CreateProductModal";
 
 const ProductsList = ({ classname, addItemToBill }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
   const scrollableProductsDivRef = useRef();
@@ -15,17 +17,17 @@ const ProductsList = ({ classname, addItemToBill }) => {
       } catch {
         console.log("Error fetching products");
       }
-    }
+    };
     fetchProducts();
-  }, []);
+  }, [isModalOpen]);
 
   const scrollToTop = () => {
     scrollableProductsDivRef.current.scrollTop = 0;
-  }
+  };
 
   const onProductClick = (product) => {
     addItemToBill(product);
-  }
+  };
 
   const filteredProducts = products.filter((product) => {
     return (
@@ -36,6 +38,10 @@ const ProductsList = ({ classname, addItemToBill }) => {
 
   return (
     <div className={`${classname} p-4 flex flex-col`}>
+      <CreateProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
       {/* Search Bar */}
       <div className="flex justify-between rounded-md">
         <input
@@ -48,27 +54,43 @@ const ProductsList = ({ classname, addItemToBill }) => {
           placeholder="Search by name or price"
           className="border-2 w-full px-2 rounded-l-md border-r-0 py-1 outline-primary"
         />
-        <button className="bg-primary text-white px-2 min-h-full min-w-10 py-1 rounded-r-md flex items-center justify-center">
+        <button className="bg-primary mr-1 text-white px-2 min-h-full min-w-10 py-1 rounded-r-md flex items-center justify-center">
           <Search size={20} />
+        </button>
+        <button
+          className="bg-primary text-white px-2 min-h-full min-w-10 py-1 rounded-md flex items-center justify-center"
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          <Plus size={20} />
         </button>
       </div>
       {/* Products */}
-      <div className="grid grid-cols-[1fr,1fr,1fr,1fr,1fr,1fr] gap-2 p-2 my-4 overflow-y-scroll" ref={scrollableProductsDivRef}>
-        {filteredProducts.length > 0 ? filteredProducts.map((product, index) => {
-          return (
-            <ProductCard
-              key={index}
-              name={product.name}
-              imgUrl={product.img_url}
-              price={product.selling_price}
-              onClick={() => { onProductClick(product) }}
-            />
-          );
-        }) : <span className="text-sm">No products found</span>}
+      <div
+        className="grid grid-cols-[1fr,1fr,1fr,1fr,1fr,1fr] gap-2 p-2 my-4 overflow-y-scroll"
+        ref={scrollableProductsDivRef}
+      >
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => {
+            return (
+              <ProductCard
+                key={index}
+                name={product.name}
+                imgUrl={product.img_url}
+                price={product.selling_price}
+                onClick={() => {
+                  onProductClick(product);
+                }}
+              />
+            );
+          })
+        ) : (
+          <span className="text-sm">No products found</span>
+        )}
       </div>
     </div>
   );
 };
-
 
 export default ProductsList;

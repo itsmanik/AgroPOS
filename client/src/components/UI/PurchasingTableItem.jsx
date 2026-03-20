@@ -1,6 +1,6 @@
 import { CircleX } from "lucide-react";
 
-const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPrice }) => {
+const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPrice, reduceItemFromBill }) => {
   const taxable = sp * qty;
   const gst_amount = (taxable * gst) / 100;
   const total = taxable + gst_amount;
@@ -36,7 +36,7 @@ const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPric
       <span className="px-2 py-1 border-l">{total.toFixed(2)}</span>
       
       <span className="pl-2 py-1 border-l">
-        <button className="h-full w-full flex justify-center items-center hover:bg-gray-100 rounded transition-colors">
+        <button className="h-full w-full flex justify-center items-center hover:bg-gray-100 rounded transition-colors" onClick={() => reduceItemFromBill(id)}>
           <CircleX color="#8f0b0b" size={18} />
         </button>
       </span>

@@ -4,7 +4,7 @@ import PurchasingTable from "../components/PurchasingTable/PurchasingTable";
 import { useState } from "react";
 import api from "../utils/axios";
 
-const BillingPage = ({isReal}) => {
+const BillingPage = ({ isReal }) => {
   const [billingItems, setBillingItems] = useState([]);
   const [extraDiscount, setExtraDiscount] = useState(0);
   // const billRef = useRef(null);
@@ -26,6 +26,22 @@ const BillingPage = ({isReal}) => {
         return [...prevItems, { ...product, qty: 1 }];
       }
     });
+  };
+
+  const reduceItemFromBill = (id) => {
+    const product = billingItems.find((item) => item.id == id);
+    setBillingItems((prevItems) => {
+        if (product.qty === 1) {
+          return prevItems.filter((item) => item.id !== product.id);
+        }
+        return prevItems.map((item) => {
+          if (item.id === product.id) {
+            return { ...item, qty: item.qty - 1 };
+          } else {
+            return item;
+          }
+        });
+    })
   };
 
   const changeUnitPrice = (id, price) => {
@@ -52,80 +68,84 @@ const BillingPage = ({isReal}) => {
     return total - extraDiscount;
   };
 
-const handlePrint = (payload) => {
-  if (!payload) return;
+  const handlePrint = (payload) => {
+    if (!payload) return;
 
-  const { customer, items, summary } = payload;
+    const { customer, items, summary } = payload;
 
-  // Formatting separators
-  const divider = "-----------------------------------";
-  const thickDivider = "=================================";
+    // Formatting separators
+    const divider = "-----------------------------------";
+    const thickDivider = "=================================";
 
-  // Header Section
-  let msg = `🏪 *SHREE VEERBHADRESHWAR DISTRIBUTORS*\n`;
-  msg += `📍 Opp SBI Bank, Gunj Road Kalburgi - 585 104\n`;
-  msg += `📞 +91 98765 43210\n`; 
-  msg += `🔖 GST: 29ACPPH9544K2ZS\n`;
-  msg += `${thickDivider}\n`;
-  msg += `            *TAX INVOICE*\n`;
-  msg += `${thickDivider}\n\n`;
+    // Header Section
+    let msg = `🏪 *SHREE VEERBHADRESHWAR DISTRIBUTORS*\n`;
+    msg += `📍 Opp SBI Bank, Gunj Road Kalburgi - 585 104\n`;
+    msg += `📞 +91 98765 43210\n`;
+    msg += `🔖 GST: 29ACPPH9544K2ZS\n`;
+    msg += `${thickDivider}\n`;
+    msg += `            *TAX INVOICE*\n`;
+    msg += `${thickDivider}\n\n`;
 
-  // Invoice & Customer Info
-  msg += `🧾 *INV NO:* #${summary.invoice_no || '23'}\n`;
-  msg += `📅 *DATE:* ${new Date().toLocaleDateString("en-IN")}\n`;
-  msg += `👤 *CUST:* ${(customer?.name || "Walk-in").toUpperCase()}\n`;
-  if (customer?.phone_number) {
-    msg += `📱 *CELL:* ${customer.phone_number}\n`;
-  }
-  
-  msg += `\n📦 *ORDER DETAILS*\n`;
-  msg += `${divider}\n`;
-
-  // Item List
-  items.forEach((item, index) => {
-    const qty = Number(item.qty || 0);
-    const rate = Number(item.selling_price || item.rate || 0);
-    const gstPercent = Number(item.gst || item.gst_percent || 18);
-    const lineTotal = (qty * rate * (1 + gstPercent / 100)).toFixed(2);
-
-    msg += `${index + 1}. *${item.name.toUpperCase()}*\n`;
-    if (item.hsn_code) {
-      msg += `   HSN: ${item.hsn_code}\n`;
+    // Invoice & Customer Info
+    msg += `🧾 *INV NO:* #${summary.invoice_no || "23"}\n`;
+    msg += `📅 *DATE:* ${new Date().toLocaleDateString("en-IN")}\n`;
+    msg += `👤 *CUST:* ${(customer?.name || "Walk-in").toUpperCase()}\n`;
+    if (customer?.phone_number) {
+      msg += `📱 *CELL:* ${customer.phone_number}\n`;
     }
-    msg += `   ${qty} ${item.unit || 'Nos'} x ₹${rate.toFixed(2)} (+${gstPercent}%)\n`;
-    msg += `   *Amount: ₹${lineTotal}*\n\n`;
-  });
 
-  msg += `${divider}\n`;
-  
-  // Financial Summary
-  const grandTotal = Number(summary.grand_total || 0);
-  const cgst = Number(summary.cgst_amount || 0);
-  const sgst = Number(summary.sgst_amount || 0);
-  
-  msg += `Subtotal  : ₹${Number(summary.subtotal || 0).toFixed(2)}\n`;
-  if (cgst > 0) {
-    msg += `CGST (9%) : ₹${cgst.toFixed(2)}\n`;
-    msg += `SGST (9%) : ₹${sgst.toFixed(2)}\n`;
-  }
-  msg += `GST Total : ₹${(cgst + sgst).toFixed(2)}\n`;
-  msg += `${thickDivider}\n`;
-  msg += `💰 *GRAND TOTAL: ₹${grandTotal.toFixed(2)}*\n`;
-  msg += `${thickDivider}\n\n`;
-  
-  msg += `💳 *Payment:* ${(summary.payment_mode || "CASH").toUpperCase()}\n\n`;
-  msg += `🙏 *THANK YOU! VISIT AGAIN!* 🙏`;
+    msg += `\n📦 *ORDER DETAILS*\n`;
+    msg += `${divider}\n`;
 
-  // Send Logic using your preferred link style
-  const phone = customer?.phone_number?.replace(/\D/g, "");
-  if (phone) {
-    const encodedMsg = encodeURIComponent(msg);
-    const link = `https://api.whatsapp.com/send?phone=91${phone}&text=${encodedMsg}`;
-    window.open(link, "_blank");
-  } else {
-    alert("Phone number missing!");
-  }
-};
+    // Item List
+    items.forEach((item, index) => {
+      const qty = Number(item.qty || 0);
+      const rate = Number(item.selling_price || item.rate || 0);
+      const gstPercent = Number(item.gst || item.gst_percent || 18);
+      const lineTotal = (qty * rate * (1 + gstPercent / 100)).toFixed(2);
+
+      msg += `${index + 1}. *${item.name.toUpperCase()}*\n`;
+      if (item.hsn_code) {
+        msg += `   HSN: ${item.hsn_code}\n`;
+      }
+      msg += `   ${qty} ${item.unit || "Nos"} x ₹${rate.toFixed(
+        2
+      )} (+${gstPercent}%)\n`;
+      msg += `   *Amount: ₹${lineTotal}*\n\n`;
+    });
+
+    msg += `${divider}\n`;
+
+    // Financial Summary
+    const grandTotal = Number(summary.grand_total || 0);
+    const cgst = Number(summary.cgst_amount || 0);
+    const sgst = Number(summary.sgst_amount || 0);
+
+    msg += `Subtotal  : ₹${Number(summary.subtotal || 0).toFixed(2)}\n`;
+    if (cgst > 0) {
+      msg += `CGST (9%) : ₹${cgst.toFixed(2)}\n`;
+      msg += `SGST (9%) : ₹${sgst.toFixed(2)}\n`;
+    }
+    msg += `GST Total : ₹${(cgst + sgst).toFixed(2)}\n`;
+    msg += `${thickDivider}\n`;
+    msg += `💰 *GRAND TOTAL: ₹${grandTotal.toFixed(2)}*\n`;
+    msg += `${thickDivider}\n\n`;
+
+    msg += `💳 *Payment:* ${(
+      summary.payment_mode || "CASH"
+    ).toUpperCase()}\n\n`;
+    msg += `🙏 *THANK YOU! VISIT AGAIN!* 🙏`;
+
+    // Send Logic using your preferred link style
+    const phone = customer?.phone_number?.replace(/\D/g, "");
+    if (phone) {
+      const encodedMsg = encodeURIComponent(msg);
+      const link = `https://api.whatsapp.com/send?phone=91${phone}&text=${encodedMsg}`;
+      window.open(link, "_blank");
+    } else {
+      alert("Phone number missing!");
+    }
+  };
 
   const sendBill = async (
     name,
@@ -153,7 +173,7 @@ const handlePrint = (payload) => {
         grand_total: grandTotal,
         payment_mode: paymentMode,
       },
-      series: `${ isReal ? "INV" : "DEMO"}`,
+      series: `${isReal ? "INV" : "DEMO"}`,
     };
     try {
       const response = await api.post("/sales", billPayload);
@@ -161,7 +181,9 @@ const handlePrint = (payload) => {
     } catch (err) {
       console.log(err);
     }
-    handlePrint(billPayload);
+    if (phoneNumber) {
+      handlePrint(billPayload);
+    }
   };
 
   return (
@@ -182,6 +204,7 @@ const handlePrint = (payload) => {
         purchasingItems={billingItems}
         classname={"h-full col-span-2 flex flex-col"}
         changeUnitPrice={changeUnitPrice}
+        reduceItemFromBill={reduceItemFromBill}
       />
     </main>
   );
