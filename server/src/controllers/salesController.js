@@ -18,8 +18,22 @@ const addSales = async (req, res) => {
       customerId = created.insertId;
     }
   }
+  const series = data.series;
+  const [rows] = await pool.query(
+    `select last_number from invoice_counters where series = ?`,
+    [series]
+  );
+  const nextNumber = rows[0].last_number + 1;
+  // Update counter
+  await pool.query(
+    `update invoice_counters set last_number = ? where series = ?`,
+    [nextNumber, series]
+  );
+  const invoiceNo = `${series}-${String(nextNumber).padStart(4, "0")}`;
+  // Insert sale
   const [saleResult] = await pool.query(
     `insert into sales (
+            invoice_no,
             customer_id,
             customer_name,
             customer_phone,
@@ -30,9 +44,11 @@ const addSales = async (req, res) => {
             igst_total,
             discount,
             grand_total,
-            payment_mode 
-        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            payment_mode,
+            series
+        ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
+      invoiceNo,
       customerId,
       data.customer?.name,
       data.customer?.phone_number,
@@ -44,20 +60,14 @@ const addSales = async (req, res) => {
       data.summary.discount,
       data.summary.grand_total,
       data.summary.payment_mode,
+      data.series,
     ]
   );
   const saleId = saleResult.insertId;
-  // Generate Invoice number
-  const invoiceNo = `INV-${saleId}`;
-  await pool.query(`update sales set invoice_no = ? where id = ?`, [
-    invoiceNo,
-    saleId,
-  ]);
-  // insert sale items
-
+  // Insert items
   for (const item of data.items) {
-    const taxable = item.rate * item.qty;
-    const gstAmount = (taxable * item.gst_percent) / 100;
+    const taxable = item.selling_price * item.qty;
+    const gstAmount = (taxable * item.gst) / 100;
     const lineTotal = taxable + gstAmount;
 
     await pool.query(
@@ -83,10 +93,9 @@ const addSales = async (req, res) => {
         item.qty,
         item.selling_price,
         item.gst,
-        item.selling_price * item.qty,
-        item.selling_price * item.qty * (item.gst / 100),
-        item.selling_price * item.qty +
-          item.selling_price * item.qty * (item.gst / 100),
+        taxable,
+        gstAmount,
+        lineTotal
       ]
     );
     await pool.query(

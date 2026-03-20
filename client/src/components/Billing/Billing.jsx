@@ -16,6 +16,7 @@ const Billing = ({
   extraDiscount,
   setExtraDiscount,
   sendBill,
+  isReal,
 }) => {
   const [paymentMode, setPaymentMode] = useState("cash");
   const [name, setName] = useState("");

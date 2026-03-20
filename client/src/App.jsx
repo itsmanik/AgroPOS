@@ -1,4 +1,5 @@
 // import Sidebar from "./components/Sidebar/Sidebar";
+import { useState } from "react"; 
 import { Routes, Route } from "react-router";
 import Analytics from "./pages/AnalyticsPage";
 import Dashboard from "./pages/DashboardPage";
@@ -13,11 +14,12 @@ import CreateProductPage from "./pages/Products/CreateProductPage";
 // import Invoice from "./components/Invoice/Invoice";
 
 function App() {
+  const [isReal, setIsReal] = useState(false);
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/billing" element={<Billing />} />
+        <Route path="/" element={<MainLayout isReal={isReal} setIsReal={setIsReal} />}>
+          <Route path="/billing" element={<Billing isReal={isReal} />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/sales/:id" element={<SaleDetails />} />
           <Route path="/dashboard" element={<Dashboard />} />

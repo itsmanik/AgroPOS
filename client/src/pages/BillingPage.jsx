@@ -1,13 +1,13 @@
 import ProductsList from "../components/ProductsList/ProductsList";
 import Billing from "../components/Billing/Billing";
 import PurchasingTable from "../components/PurchasingTable/PurchasingTable";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import api from "../utils/axios";
 
-const BillingPage = () => {
+const BillingPage = ({isReal}) => {
   const [billingItems, setBillingItems] = useState([]);
   const [extraDiscount, setExtraDiscount] = useState(0);
-  const billRef = useRef(null);
+  // const billRef = useRef(null);
 
   const addItemToBill = (product) => {
     setBillingItems((prevItems) => {
@@ -153,6 +153,7 @@ const handlePrint = (payload) => {
         grand_total: grandTotal,
         payment_mode: paymentMode,
       },
+      series: `${ isReal ? "INV" : "DEMO"}`,
     };
     try {
       const response = await api.post("/sales", billPayload);
