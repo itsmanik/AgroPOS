@@ -96,13 +96,13 @@ const Billing = ({
                 className="p-2 border rounded focus:ring-1 focus:ring-blue-500"
               />
             </div>
-            <input
+            {/* <input
               type="text"
               placeholder="Address"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="p-2 border rounded w-full focus:ring-1 focus:ring-blue-500"
-            />
+            /> */}
           </div>
         </div>
 
