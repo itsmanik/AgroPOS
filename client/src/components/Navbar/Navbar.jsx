@@ -9,7 +9,7 @@ const Navbar = ({ isReal, setIsReal }) => {
 
   return (
     <nav className="bg-[#F4F4F4] w-full flex justify-between items-center py-3 px-6 shadow fixed top-0 z-20">
-      <span className="font-bold text-xl italic text-primary">VE</span>
+      <span className="font-bold text-xl italic text-primary">AgroPOS</span>
       <div className="flex items-center">
         <div className="flex items-center gap-3">
           <span
