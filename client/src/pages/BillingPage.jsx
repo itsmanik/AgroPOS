@@ -31,17 +31,17 @@ const BillingPage = ({ isReal }) => {
   const reduceItemFromBill = (id) => {
     const product = billingItems.find((item) => item.id == id);
     setBillingItems((prevItems) => {
-        if (product.qty === 1) {
-          return prevItems.filter((item) => item.id !== product.id);
+      if (product.qty === 1) {
+        return prevItems.filter((item) => item.id !== product.id);
+      }
+      return prevItems.map((item) => {
+        if (item.id === product.id) {
+          return { ...item, qty: item.qty - 1 };
+        } else {
+          return item;
         }
-        return prevItems.map((item) => {
-          if (item.id === product.id) {
-            return { ...item, qty: item.qty - 1 };
-          } else {
-            return item;
-          }
-        });
-    })
+      });
+    });
   };
 
   const changeUnitPrice = (id, price) => {
@@ -157,6 +157,7 @@ const BillingPage = ({ isReal }) => {
     grandTotal,
     paymentMode
   ) => {
+    alert("Bill Created");
     const billPayload = {
       customer: {
         name: name,
