@@ -1,4 +1,4 @@
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, RefreshCcw } from "lucide-react";
 import ProductCard from "../UI/ProductCard";
 import { useState, useRef, useEffect } from "react";
 import api from "../../utils/axios";
@@ -9,15 +9,15 @@ const ProductsList = ({ classname, addItemToBill }) => {
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
   const scrollableProductsDivRef = useRef();
+  const fetchProducts = async () => {
+    try {
+      const response = await api.get("/products/");
+      setProducts(response.data);
+    } catch {
+      console.log("Error fetching products");
+    }
+  };
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await api.get("/products/");
-        setProducts(response.data);
-      } catch {
-        console.log("Error fetching products");
-      }
-    };
     fetchProducts();
   }, [isModalOpen]);
 
@@ -58,12 +58,20 @@ const ProductsList = ({ classname, addItemToBill }) => {
           <Search size={20} />
         </button>
         <button
-          className="bg-primary text-white px-2 min-h-full min-w-10 py-1 rounded-md flex items-center justify-center"
+          className="bg-primary mr-1 text-white px-2 min-h-full min-w-10 py-1 rounded-md flex items-center justify-center"
           onClick={() => {
             setIsModalOpen(true);
           }}
         >
           <Plus size={20} />
+        </button>
+        <button
+          className="bg-primary text-white px-2 min-h-full min-w-10 py-1 rounded-md flex items-center justify-center"
+          onClick={() => {
+            fetchProducts();
+          }}
+        >
+          <RefreshCcw size={20} />
         </button>
       </div>
       {/* Products */}
