@@ -1,6 +1,8 @@
 import pool from '../config/db.js';
 import multer from "multer"
 import path from "path";
+import sharp from "sharp";
+import upload from '../middleware/upload.js';
 
 const getAllProducts = async (req, res) => {
     try {
@@ -18,9 +20,15 @@ const getAllProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity } = req.body;
-        const image = req.file ? req.file.filename : null;
-        const [result] = await pool.query('INSERT INTO products (name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, image, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity]);
+        let img_url = null;
+        if (req.file) {
+            const filename = Date.now() + ".jpg";
+            const uploadPath = path.join("uploads", filename);
+            await sharp(req.file.buffer).resize(500).jpeg({ quality: 70 }).toFile(uploadPath);
+            img_url = `/${filename}`;
+        }
+        const { name, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity } = req.body;
+        const [result] = await pool.query('INSERT INTO products (name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity]);
         const [rows] = await pool.query('SELECT * FROM products WHERE id = ?', [result.insertId]);
         res.status(201).json(rows[0]);
     } catch (err) {

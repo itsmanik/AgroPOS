@@ -12,6 +12,7 @@ const ProductCard = ({ classname, name, imgUrl, price, onClick }) => {
           }
           className="h-full w-full object-cover rounded-t-lg"
           alt="Product Image"
+          loading="lazy"
         />
       </div>
       <div className="p-3 text-center text-white">
