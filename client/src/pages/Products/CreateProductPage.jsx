@@ -54,15 +54,15 @@ const CreateProductPage = () => {
   //   }
   // };
 
-  const getBasePrice = () => {
+  const getSellingPrice = () => {
     if (!sellingPrice || !gst) return null;
     const price = parseFloat(sellingPrice);
     const gstPercent = parseFloat(gst);
     
     if (gstIncluded) {
-      return (price / (1 + gstPercent / 100)).toFixed(2);
-    } else {
       return price.toFixed(2);
+    } else {
+      return (price * ((1 + gstPercent / 100))).toFixed(2);
     }
   };
 
@@ -107,8 +107,9 @@ const CreateProductPage = () => {
     formData.append("mrp", mrp || 0);
     formData.append("gst", gst || 0);
     
-    const basePrice = getBasePrice();
-    formData.append("selling_price", basePrice);
+    // const basePrice = getBasePrice();
+    const selling_price = getSellingPrice();
+    formData.append("selling_price", selling_price);
     
     formData.append("hsn_code", hsnCode);
     formData.append("stock_quantity", stockQuantity || 0);

@@ -1,9 +1,9 @@
 import { CircleX } from "lucide-react";
 
 const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPrice, reduceItemFromBill }) => {
-  const taxable = sp * qty;
+  const total = sp * qty;
+  const taxable = total / (1 + gst / 100);
   const gst_amount = (taxable * gst) / 100;
-  const total = taxable + gst_amount;
   return (
     <div className="grid grid-cols-[2rem,1fr,5rem,5rem,5rem,5rem,5rem,5rem,5rem,2rem] bg-white shadow px-2 rounded-md">
       <span className="px-2 py-1">{slNo}</span>

@@ -60,9 +60,9 @@ const BillingPage = ({ isReal }) => {
   // Use memo recommended, learn that later and implement
   const calculateTotal = () => {
     const total = billingItems.reduce((sum, item) => {
-      const taxable = item.selling_price * item.qty;
-      const gstAmount = (taxable * item.gst) / 100;
-      const total = taxable + gstAmount;
+      // const taxable = item.selling_price * item.qty;
+      // const gstAmount = (taxable * item.gst) / 100;
+      const total = item.selling_price * item.qty;
       return sum + total;
     }, 0);
     return total - extraDiscount;

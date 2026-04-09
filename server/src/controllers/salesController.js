@@ -66,9 +66,10 @@ const addSales = async (req, res) => {
   const saleId = saleResult.insertId;
   // Insert items
   for (const item of data.items) {
-    const taxable = item.selling_price * item.qty;
-    const gstAmount = (taxable * item.gst) / 100;
-    const lineTotal = taxable + gstAmount;
+    const total = item.selling_price * item.qty;
+    const taxable = total / (1 + item.gst / 100);
+    const gstAmount = total - taxable;
+    const lineTotal = total;
 
     await pool.query(
       `INSERT INTO sale_items (

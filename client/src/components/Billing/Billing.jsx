@@ -28,24 +28,33 @@ const Billing = ({
 
   // Calculate totals from billing items
   const calculations = useMemo(() => {
-    let subtotal = 0;
+    const round2 = (n) => Math.round(n * 100) / 100;
+
+    let subtotal = 0; // this will be TAXABLE (base)
     let totalGST = 0;
+    let grandTotal = 0;
 
     billingItems.forEach((item) => {
-      const itemTotal = (item.selling_price || 0) * (item.qty || 1);
-      subtotal += itemTotal;
+      const sp = Number(item.selling_price) || 0;
+      const qty = Number(item.qty) || 1;
+      const gst = Number(item.gst) || 0;
 
-      // Calculate GST on the item total
-      const gstRate = (item.gst || 0) / 100;
-      totalGST += itemTotal * gstRate;
+      const total = round2(sp * qty); // final price (includes GST)
+
+      const taxable = round2(total / (1 + gst / 100));
+      const gst_amount = round2(total - taxable);
+
+      subtotal += taxable;
+      totalGST += gst_amount;
+      grandTotal += total;
     });
 
     const discount = Number(extraDiscount) || 0;
-    const grandTotal = subtotal + totalGST - discount;
+    grandTotal = round2(grandTotal - discount);
 
     return {
-      subtotal,
-      totalGST,
+      subtotal: round2(subtotal),
+      totalGST: round2(totalGST),
       grandTotal: Math.max(0, grandTotal),
     };
   }, [billingItems, extraDiscount]);
