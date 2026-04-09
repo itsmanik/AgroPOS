@@ -1,42 +1,76 @@
 import { CircleX } from "lucide-react";
 
-const PurchasingTableItem = ({ slNo, hsn, name, sp, id, gst, qty, changeUnitPrice, reduceItemFromBill }) => {
+const PurchasingTableItem = ({
+  slNo,
+  hsn,
+  name,
+  sp,
+  id,
+  gst,
+  qty,
+  changeUnitPrice,
+  reduceItemFromBill,
+  unit,
+  changeQuantity,
+}) => {
   const total = sp * qty;
   const taxable = total / (1 + gst / 100);
   const gst_amount = (taxable * gst) / 100;
+  const unitMap = {
+    Meters: "m",
+    Unit: "pcs",
+    Kilograms: "kg",
+  };
   return (
-    <div className="grid grid-cols-[2rem,1fr,5rem,5rem,5rem,5rem,5rem,5rem,5rem,2rem] bg-white shadow px-2 rounded-md">
+    <div className="grid grid-cols-[2rem,1fr,5rem,5rem,8rem,5rem,5rem,5rem,2rem] bg-white shadow px-2 rounded-md">
       <span className="px-2 py-1">{slNo}</span>
       <span className="px-2 py-1 border-l">{name}</span>
       <span className="px-2 py-1 border-l">{hsn}</span>
-      <input className="px-2 py-1 border-l" defaultValue={sp} onChange={(e) => { changeUnitPrice(id, e.target.value)} } />
-      
+      <input
+        className="px-2 py-1 border-l"
+        defaultValue={sp}
+        onChange={(e) => {
+          changeUnitPrice(id, e.target.value);
+        }}
+      />
+
       {/* CGST column - shows both rate and dummy amount */}
-      <span className="px-2 py-1 border-l">{qty}</span>
-      
+      <span className="px-2 py-1 border-l flex items-center gap-2">
+        <input
+          type="number"
+          value={qty}
+          onChange={(e) => changeQuantity(id, e.target.value)}
+          className="w-16 px-2 py-1 border rounded outline-none focus:ring-1 focus:ring-gray-400"
+        />
+        <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
+          {unitMap[unit]}
+        </span>
+      </span>
       {/* SGST column - shows both rate and dummy amount */}
       <span className="px-2 py-1 border-l">{taxable.toFixed(2)}</span>
-      
+
       {/* IGST column - shows both rate and dummy amount */}
       <span className="px-2 py-1 border-l flex flex-col items-start">
         <span className="text-xs text-gray-500">{gst}%</span>
         <span className="text-sm font-medium">{gst_amount.toFixed(2)}</span>
       </span>
-      
-      
-      <span className="px-2 py-1 border-l h-full w-full">
+
+      {/* <span className="px-2 py-1 border-l h-full w-full">
         <input
           type="number"
           className="w-full outline-none bg-inherit"
           defaultValue={0}
           min={1}
         />
-      </span>
-      
+      </span> */}
+
       <span className="px-2 py-1 border-l">{total.toFixed(2)}</span>
-      
+
       <span className="pl-2 py-1 border-l">
-        <button className="h-full w-full flex justify-center items-center hover:bg-gray-100 rounded transition-colors" onClick={() => reduceItemFromBill(id)}>
+        <button
+          className="h-full w-full flex justify-center items-center hover:bg-gray-100 rounded transition-colors"
+          onClick={() => reduceItemFromBill(id)}
+        >
           <CircleX color="#8f0b0b" size={18} />
         </button>
       </span>

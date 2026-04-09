@@ -57,6 +57,18 @@ const BillingPage = ({ isReal }) => {
     });
   };
 
+  const changeQuantity = (id, qty) => {
+    setBillingItems((prevItems) => {
+      return prevItems.map((item) => {
+        if (item.id == id) {
+          return { ...item, qty: qty };
+        } else {
+          return item;
+        }
+      });
+    });
+  }
+
   // Use memo recommended, learn that later and implement
   const calculateTotal = () => {
     const total = billingItems.reduce((sum, item) => {
@@ -205,6 +217,7 @@ const BillingPage = ({ isReal }) => {
         purchasingItems={billingItems}
         classname={"h-full col-span-2 flex flex-col"}
         changeUnitPrice={changeUnitPrice}
+        changeQuantity={changeQuantity}
         reduceItemFromBill={reduceItemFromBill}
       />
     </main>
