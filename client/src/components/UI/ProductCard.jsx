@@ -1,8 +1,8 @@
-const ProductCard = ({ classname, name, imgUrl, price, onClick }) => {
+const ProductCard = ({ classname, name, imgUrl, price, onClick, id }) => {
   return (
     <div
       className={`${classname} flex cursor-pointer flex-col items-center border rounded-lg bg-primary shadow-lg`}
-      onClick={onClick}
+      onClick={() => onClick(id)}
     >
       <div className="w-full h-full">
         <img

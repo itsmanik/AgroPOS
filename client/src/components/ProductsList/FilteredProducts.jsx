@@ -2,11 +2,13 @@ import { Search } from "lucide-react";
 import ProductCard from "../UI/ProductCard";
 import { useState, useRef, useEffect } from "react";
 import api from "../../utils/axios";
+import { useNavigate } from "react-router";
 
 const FilteredProducts = () => {
   const [searchText, setSearchText] = useState("");
   const [products, setProducts] = useState([]);
   const scrollableProductsDivRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,6 +33,10 @@ const FilteredProducts = () => {
       product.selling_price.toString().includes(searchText)
     );
   });
+
+  const handleClick = (id) => {
+    navigate(`${id}`)
+  }
 
   return (
     <div className={`p-6 m-2 shadow bg-white rounded`}>
@@ -59,10 +65,12 @@ const FilteredProducts = () => {
           filteredProducts.map((product, index) => {
             return (
               <ProductCard
+                id={product.id}
                 key={index}
                 name={product.name}
                 imgUrl={product.img_url}
                 price={product.selling_price}
+                onClick={handleClick}
               />
             );
           })

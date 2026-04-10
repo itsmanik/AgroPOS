@@ -11,6 +11,7 @@ import Stock from "./pages/StockPage";
 import ProductsPage from "./pages/Products/ProductsPage";
 import MainLayout from "./layouts/MainLayout";
 import CreateProductPage from "./pages/Products/CreateProductPage";
+import ProductDetails from "./pages/ProductDetails";
 // import Invoice from "./components/Invoice/Invoice";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/products">
             <Route index element={<ProductsPage />} />
             <Route path="create" element={<CreateProductPage />} />
+            <Route path=":id" element={<ProductDetails />} />
           </Route>
           <Route path="/stock" element={<Stock />} />
           <Route path="/analytics" element={<Analytics />} />
