@@ -55,9 +55,10 @@ const createProduct = async (req, res) => {
             selling_price,
             hsn_code,
             stock_quantity,
+            reorder_level
         } = req.body;
         const [result] = await pool.query(
-            "INSERT INTO products (name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO products (name, img_url, nickname, category, unit, mrp, gst, selling_price, hsn_code, stock_quantity, reorder_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 name,
                 img_url,
@@ -69,6 +70,7 @@ const createProduct = async (req, res) => {
                 selling_price,
                 hsn_code,
                 stock_quantity,
+                reorder_level
             ]
         );
         const [rows] = await pool.query("SELECT * FROM products WHERE id = ?", [

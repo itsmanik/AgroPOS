@@ -14,6 +14,7 @@ const CreateProductPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("General");
   const [selectedUnit, setSelectedUnit] = useState("Unit");
   const [stockQuantity, setStockQuantity] = useState("");
+  const [reorderLevel, setReorderLevel] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   
@@ -32,7 +33,7 @@ const CreateProductPage = () => {
     "Machinery",
   ];
   
-  const units = ["Unit", "Kilograms", "Liters", "Packets", "Meters", "Boxes"];
+  const units = ["Unit", "Kilograms", "Liters", "Packets", "Meters", "Boxes", "Inches"];
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -106,6 +107,7 @@ const CreateProductPage = () => {
     formData.append("unit", selectedUnit);
     formData.append("mrp", mrp || 0);
     formData.append("gst", gst || 0);
+    formData.append("reorder_level", reorderLevel);
     
     // const basePrice = getBasePrice();
     const selling_price = getSellingPrice();
@@ -138,6 +140,7 @@ const CreateProductPage = () => {
       setImagePreview(null);
       setGstIncluded(false);
       setErrors({});
+      setReorderLevel("");
       
     } catch (err) {
       console.log(err);
@@ -190,17 +193,22 @@ const CreateProductPage = () => {
                   />
                 </div>
                 
-                <div>
-                  <label className="block text-gray-700 font-medium">Brand Name</label>
+                                      <div>
+                  <label className="block text-gray-700 font-medium">MRP (₹)</label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Optional"
-                    className="w-full mt-1 p-3 border border-gray-300 rounded-md"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
+                    className={`w-full mt-1 p-3 border rounded-md ${
+                      errors.mrp ? "border-red-500" : "border-gray-300"
+                    }`}
+                    value={mrp}
+                    onChange={(e) => setMrp(e.target.value)}
+                    step="0.01"
+                    min="0"
                   />
+                  {errors.mrp && <p className="text-red-500 text-xs mt-1">{errors.mrp}</p>}
                 </div>
-                
+
                 <div>
                   <label className="block text-gray-700 font-medium">Category</label>
                   <select
@@ -243,19 +251,14 @@ const CreateProductPage = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-gray-700 font-medium">MRP (₹)</label>
+                  <label className="block text-gray-700 font-medium">Low Stock Alert At</label>
                   <input
-                    type="number"
+                    type="text"
                     placeholder="Optional"
-                    className={`w-full mt-1 p-3 border rounded-md ${
-                      errors.mrp ? "border-red-500" : "border-gray-300"
-                    }`}
-                    value={mrp}
-                    onChange={(e) => setMrp(e.target.value)}
-                    step="0.01"
-                    min="0"
+                    className="w-full mt-1 p-3 border border-gray-300 rounded-md"
+                    value={reorderLevel}
+                    onChange={(e) => setReorderLevel(e.target.value)}
                   />
-                  {errors.mrp && <p className="text-red-500 text-xs mt-1">{errors.mrp}</p>}
                 </div>
               </div>
             </div>

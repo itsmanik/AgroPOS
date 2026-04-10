@@ -20,7 +20,7 @@ const dashboardController = async (req, res) => {
     const [lowStock] = await pool.query(`
             select * 
             from products 
-            where stock_quantity <= 5
+            where stock_quantity <= reorder_level
             order by stock_quantity asc
             limit 50
         `);

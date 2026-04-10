@@ -20,6 +20,7 @@ const PurchasingTableItem = ({
     Meters: "m",
     Unit: "pcs",
     Kilograms: "kg",
+    Inches: "in"
   };
   return (
     <div className="grid grid-cols-[2rem,1fr,5rem,5rem,8rem,5rem,5rem,5rem,2rem] bg-white shadow px-2 rounded-md">
